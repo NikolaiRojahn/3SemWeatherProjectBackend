@@ -43,6 +43,12 @@ public class WeatherFacade {
         weather.add(gson.fromJson(new FetchResourceCallable(findWeatherForCity).call(), WeatherDTO.class));
         return weather;
     }
+    
+    public WeatherDTO getWeatherForToday(CityDTO city) throws Exception {
+        List<WeatherDTO> weatherToday = new ArrayList();
+        weatherToday = getWeatherByCity(city);
+        return weatherToday.get(0);
+    }
 
     public String getFindCityId() {
         return findCityId;

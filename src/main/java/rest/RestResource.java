@@ -71,32 +71,32 @@ public class RestResource {
     return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
   }
   
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("starwars-characters")
-  public Response getStarActors() throws IOException, InterruptedException, ExecutionException{
-      RequestUrl req = new RequestUrl();
-      List<String> starWars = req.runParallelCharacters();
-      return Response.ok().entity(gson.toJson(starWars)).build();
-  }
-  
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("starwars-planets")
-  public Response getStarWarsPlanets() throws IOException, InterruptedException, ExecutionException{
-      RequestUrl req = new RequestUrl();
-      List<String> starWars = req.runParallelPlanets();
-      return Response.ok().entity(gson.toJson(starWars)).build();
-  }
-  
-   @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("starwars-ships")
-  public Response getStarWarsShips() throws IOException, InterruptedException, ExecutionException{
-      RequestUrl req = new RequestUrl();
-      List<String> starWars = req.runParallelShips();
-      return Response.ok().entity(gson.toJson(starWars)).build();
-  }
+//  @GET
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path("starwars-characters")
+//  public Response getStarActors() throws IOException, InterruptedException, ExecutionException{
+//      RequestUrl req = new RequestUrl();
+//      List<String> starWars = req.runParallelCharacters();
+//      return Response.ok().entity(gson.toJson(starWars)).build();
+//  }
+//  
+//  @GET
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path("starwars-planets")
+//  public Response getStarWarsPlanets() throws IOException, InterruptedException, ExecutionException{
+//      RequestUrl req = new RequestUrl();
+//      List<String> starWars = req.runParallelPlanets();
+//      return Response.ok().entity(gson.toJson(starWars)).build();
+//  }
+//  
+//   @GET
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path("starwars-ships")
+//  public Response getStarWarsShips() throws IOException, InterruptedException, ExecutionException{
+//      RequestUrl req = new RequestUrl();
+//      List<String> starWars = req.runParallelShips();
+//      return Response.ok().entity(gson.toJson(starWars)).build();
+//  }
   
   
 }

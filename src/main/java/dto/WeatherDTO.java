@@ -6,7 +6,7 @@ package dto;
  */
 public class WeatherDTO {
 
-    private int id;
+    private long id;
     private double min_temp, max_temp, the_temp, wind_speed;
     private String weather_state_name, weather_state_abbr, wind_direction_compass;
 
@@ -24,11 +24,11 @@ public class WeatherDTO {
         this.wind_direction_compass = wind_direction_compass;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

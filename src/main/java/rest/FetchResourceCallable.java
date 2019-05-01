@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
  *
  * @author oertel
  */
-class FetchResourceCallable implements Callable<String>{
+public class FetchResourceCallable implements Callable<String>{
     String urlStr;
     
     public FetchResourceCallable(String url){

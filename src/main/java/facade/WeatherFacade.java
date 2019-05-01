@@ -45,8 +45,7 @@ public class WeatherFacade {
     }
     
     public WeatherDTO getWeatherForToday(CityDTO city) throws Exception {
-        List<WeatherDTO> weatherToday = new ArrayList();
-        weatherToday = getWeatherByCity(city);
+        List<WeatherDTO> weatherToday = getWeatherByCity(city);
         return weatherToday.get(0);
     }
 

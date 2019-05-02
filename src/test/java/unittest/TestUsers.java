@@ -62,7 +62,7 @@ public class TestUsers {
     public void testGetWoeidForCityLondon() throws Exception {
         String cityname = "london";
         int expected = 44418;
-        int actual = wf.getWoeidForCity(cityname)[0].getWoeid();
+        int actual = wf.getWoeidForCity(cityname).getWoeid();
         assertEquals(expected, actual);
     }
     
@@ -70,7 +70,7 @@ public class TestUsers {
     public void testGetWoeidForCityCopenhagen() throws Exception {
         String cityname = "copenhagen";
         int expected = 554890;
-        int actual = wf.getWoeidForCity(cityname)[0].getWoeid();
+        int actual = wf.getWoeidForCity(cityname).getWoeid();
         assertEquals(expected, actual);
     }
 

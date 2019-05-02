@@ -30,9 +30,9 @@ public class WeatherFacade {
     private final String findCityId = EA.getApiMetaWeatherCity();
     private final String findWeatherForCity = EA.getApiMetaWeatherDataByCityId();
 
-    public CityDTO[] getWoeidForCity(String cityname) throws Exception {
+    public CityDTO getWoeidForCity(String cityname) throws Exception {
         CityDTO[] city = gson.fromJson(new FetchResourceCallable(findCityId + cityname).call(), CityDTO[].class);
-        return city;
+        return city[0];
     }
 
     public List<WeatherDTO> getWeatherByCity(CityDTO city) throws Exception {

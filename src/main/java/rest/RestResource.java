@@ -2,7 +2,10 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dto.CityDTO;
+import dto.WeatherDTO;
 import entity.User;
+import facade.WeatherFacade;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -13,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -21,10 +25,11 @@ import utils.PuSelector;
 /**
  * @author lam@cphbusiness.dk
  */
-@Path("info")
+@Path("weather")
 public class RestResource {
     
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static WeatherFacade wf = new WeatherFacade();
 
   @Context
   private UriInfo context;
@@ -70,6 +75,30 @@ public class RestResource {
     String thisuser = securityContext.getUserPrincipal().getName();
     return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
   }
+  
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/today/{city}")
+    public Response getWeatherForTodayByCityname(@PathParam("city") String cityname) throws Exception {
+        CityDTO cityDTO = wf.getWoeidForCity(cityname);
+        WeatherDTO weatherDTO = wf.getWeatherForToday(cityDTO);
+        return Response.ok().entity(gson.toJson(weatherDTO)).build();
+    }
+    
+//    @RequestMapping(value = "/today/{city}", method = RequestMethod.GET)
+//	public ResponseEntity<WeatherDTO> forecastOneDayByCityName(@PathVariable(name = "city", required = true) String cityName){
+//		return new ResponseEntity<>(datafacade.getForecastOneDayByCityName(cityName), HttpStatus.OK);
+//	}
+//	
+//	@RequestMapping(value = "/5days/{city}", method = RequestMethod.GET)
+//	public ResponseEntity<List<WeatherDTO>> forecastFiveDaysByCityName(@PathVariable(name = "city", required = true) String cityName){
+//		return new ResponseEntity<>(datafacade.forecastFiveDaysByCityName(cityName), HttpStatus.OK);
+//	}
+//	
+//	@RequestMapping(value = "/today/europe-capitals", method = RequestMethod.GET)
+//	public ResponseEntity<List<WeatherDTO>> forecastEuropeCapitalsToday(){
+//		return new ResponseEntity<>(datafacade.forecastEuropeCapitalsToday(), HttpStatus.OK);
+//	}
   
 //  @GET
 //  @Produces(MediaType.APPLICATION_JSON)

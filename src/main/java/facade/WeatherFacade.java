@@ -37,14 +37,11 @@ public class WeatherFacade {
 
     public List<WeatherDTO> getWeatherByCity(CityDTO city) throws Exception {
         AllWeatherDTO allWeatherDTO = gson.fromJson(new FetchResourceCallable(findWeatherForCity + city.getWoeid()).call(), AllWeatherDTO.class);
-        System.out.println(allWeatherDTO.getConsolidated_weather().size());
         return allWeatherDTO.getConsolidated_weather();
     }
 
-    public List<WeatherDTO> getWeatherForToday(CityDTO city) throws Exception {
-        List<WeatherDTO> weatherToday = new ArrayList();
-        weatherToday.add(getWeatherByCity(city).get(0));
-        return weatherToday;
+    public WeatherDTO getWeatherForToday(CityDTO city) throws Exception {
+        return getWeatherByCity(city).get(0);
     }
 
     public String getFindCityId() {

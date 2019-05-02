@@ -15,7 +15,6 @@ import utils.PuSelector;
 import facade.WeatherFacade;
 import java.util.ArrayList;
 import java.util.List;
-import rest.FetchResourceCallable;
 
 public class TestUsers {
 
@@ -86,8 +85,10 @@ public class TestUsers {
     @Test
     public void getWeatherTodayByCity() throws Exception {
         CityDTO cityDTO = new CityDTO("Copenhagen", "City", "55.676311,12.569350", 554890);
+        List<WeatherDTO> testTodayDTOList = new ArrayList();
+        testTodayDTOList.add(wf.getWeatherForToday(cityDTO));
         int expected = 1;
-        long actual = wf.getWeatherForToday(cityDTO).size();
+        long actual = testTodayDTOList.size();
         assertEquals(expected, actual);
     }
     

@@ -85,6 +85,17 @@ public class RestResource {
         return Response.ok().entity(gson.toJson(weatherDTO)).build();
     }
     
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/5days/{city}")
+    public Response getWeatherFiveDaysByCityName(@PathParam("city") String cityname) throws Exception{
+        CityDTO cityDTO = wf.getWoeidForCity(cityname);
+        List <WeatherDTO> weatherDTOlist = wf.getWeatherByCity(cityDTO);
+        return Response.ok().entity(gson.toJson(weatherDTOlist)).build();
+            
+    
+	}
+    
 //    @RequestMapping(value = "/today/{city}", method = RequestMethod.GET)
 //	public ResponseEntity<WeatherDTO> forecastOneDayByCityName(@PathVariable(name = "city", required = true) String cityName){
 //		return new ResponseEntity<>(datafacade.getForecastOneDayByCityName(cityName), HttpStatus.OK);

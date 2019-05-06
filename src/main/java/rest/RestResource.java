@@ -6,10 +6,13 @@ import dto.CityDTO;
 import dto.WeatherDTO;
 import entity.User;
 import facade.WeatherFacade;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import javax.annotation.security.RolesAllowed;
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -103,38 +106,33 @@ public class RestResource {
 
     }
 
+}
+
+//    // mangler error handling!!!!!!!!!!!!!!!!!!!!!!!!!!!!! try catch osv...
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("/symbol/{abb}")
+//    public Response getWeatherSymbol(@PathParam("abb") String abbreviation) throws MalformedURLException, IOException{
+//        String link = wf.getWeatherSymbol(abbreviation);
+//        URL url = new URL(link);
+//        BufferedImage image = ImageIO.read(url);
+//        System.out.println(image);
+//        return Response.ok(gson.toJson(image)).build();
+//    }
+//    @RequestMapping(value = "/today/{city}", method = RequestMethod.GET)
+//	public ResponseEntity<WeatherDTO> forecastOneDayByCityName(@PathVariable(name = "city", required = true) String cityName){
+//		return new ResponseEntity<>(datafacade.getForecastOneDayByCityName(cityName), HttpStatus.OK);
+//	}
+//	
+//	@RequestMapping(value = "/5days/{city}", method = RequestMethod.GET)
+//	public ResponseEntity<List<WeatherDTO>> forecastFiveDaysByCityName(@PathVariable(name = "city", required = true) String cityName){
+//		return new ResponseEntity<>(datafacade.forecastFiveDaysByCityName(cityName), HttpStatus.OK);
+//	}
+//	
 //	@RequestMapping(value = "/today/europe-capitals", method = RequestMethod.GET)
 //	public ResponseEntity<List<WeatherDTO>> forecastEuropeCapitalsToday(){
 //		return new ResponseEntity<>(datafacade.forecastEuropeCapitalsToday(), HttpStatus.OK);
 //	}
-//  @GET
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Path("starwars-characters")
-//  public Response getStarActors() throws IOException, InterruptedException, ExecutionException{
-//      RequestUrl req = new RequestUrl();
-//      List<String> starWars = req.runParallelCharacters();
-//      return Response.ok().entity(gson.toJson(starWars)).build();
-//  }
-//  
-//  @GET
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Path("starwars-planets")
-//  public Response getStarWarsPlanets() throws IOException, InterruptedException, ExecutionException{
-//      RequestUrl req = new RequestUrl();
-//      List<String> starWars = req.runParallelPlanets();
-//      return Response.ok().entity(gson.toJson(starWars)).build();
-//  }
-//  
-//   @GET
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Path("starwars-ships")
-//  public Response getStarWarsShips() throws IOException, InterruptedException, ExecutionException{
-//      RequestUrl req = new RequestUrl();
-//      List<String> starWars = req.runParallelShips();
-//      return Response.ok().entity(gson.toJson(starWars)).build();
-//  }
-}
-
 //package rest;
 //
 //import com.google.gson.Gson;

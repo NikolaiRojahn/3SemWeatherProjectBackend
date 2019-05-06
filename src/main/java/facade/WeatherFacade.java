@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import dto.AllWeatherDTO;
 import dto.CityDTO;
 import dto.WeatherDTO;
+import exceptions.CityNotFoundException;
+import exceptions.ExternalServerError;
 import java.util.ArrayList;
 import java.util.List;
 import threads.FetchCallable;
@@ -37,6 +39,9 @@ public class WeatherFacade {
     public void fetchCityObjectAndEventsByCityName(String cityname) throws Exception {
         List<String> fetchUrls = getUrlsToFetchFromByCity(cityname);
         fetchResultList = new FetchExecutor(fetchUrls).run();
+        if (fetchResultList.get(0).equals("[]")) { //Checking for empty array
+            throw new CityNotFoundException();
+        }
     }
 
     public CityDTO getWoeidForCity() throws Exception {

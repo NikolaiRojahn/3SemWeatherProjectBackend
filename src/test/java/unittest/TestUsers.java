@@ -4,6 +4,8 @@ import dto.WeatherDTO;
 import entity.User;
 import entity.UserFacade;
 import exceptions.AuthenticationException;
+import exceptions.CityNotFoundException;
+import exceptions.ExternalServerError;
 import javax.persistence.EntityManagerFactory;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -108,6 +110,12 @@ public class TestUsers {
         int expected = 1;
         long actual = testTodayDTOList.size();
         assertEquals(expected, actual);
+    }
+    
+    @Test(expected = CityNotFoundException.class)
+    public void getCityNotFoundException() throws CityNotFoundException, ExternalServerError {
+        String cityname = "Cofdsgdgpenhagen";
+        wf.fetchCityObjectAndEventsByCityName(cityname);
     }
     
 }

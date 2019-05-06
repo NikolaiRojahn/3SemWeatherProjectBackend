@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import dto.CityDTO;
 import dto.WeatherDTO;
 import entity.User;
+import exceptions.CityNotFoundException;
+import exceptions.ExternalServerError;
 import facade.WeatherFacade;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -88,8 +91,12 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/today/{city}")
     public Response getWeatherForTodayByCityname(@PathParam("city") String cityname) throws Exception {
-        WeatherDTO weatherDTO = wf.getWeatherForToday(cityname);
-        return Response.ok().entity(gson.toJson(weatherDTO)).build();
+        try {
+            WeatherDTO weatherDTO = wf.getWeatherForToday(cityname);
+            return Response.ok().entity(gson.toJson(weatherDTO)).build();
+        } catch (CityNotFoundException ex) {
+            throw new WebApplicationException(ex.getMessage(), ex, Response.Status.NOT_FOUND);
+        }
     }
 
 //OUTSOURCING CODE - JAVA SPRING FRAMEWORK
@@ -101,11 +108,13 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/5days/{city}")
     public Response getWeatherFiveDaysByCityName(@PathParam("city") String cityname) throws Exception {
-        List<WeatherDTO> weatherDTOlist = wf.getWeatherByCity(cityname);
-        return Response.ok().entity(gson.toJson(weatherDTOlist)).build();
-
+        try {
+            List<WeatherDTO> weatherDTOlist = wf.getWeatherByCity(cityname);
+            return Response.ok().entity(gson.toJson(weatherDTOlist)).build();
+        } catch (CityNotFoundException ex) {
+            throw new WebApplicationException(ex.getMessage(), ex, Response.Status.NOT_FOUND);
+        }
     }
-
 }
 
 //    // mangler error handling!!!!!!!!!!!!!!!!!!!!!!!!!!!!! try catch osv...

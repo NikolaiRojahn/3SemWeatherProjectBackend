@@ -113,7 +113,7 @@ public class TestUsers {
     }
     
     @Test(expected = CityNotFoundException.class)
-    public void getCityNotFoundException() throws CityNotFoundException, ExternalServerError {
+    public void getCityNotFoundException() throws Exception  {
         String cityname = "Cofdsgdgpenhagen";
         wf.fetchCityObjectAndEventsByCityName(cityname);
     }

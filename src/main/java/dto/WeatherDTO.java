@@ -8,13 +8,14 @@ public class WeatherDTO {
 
     private long id;
     private double min_temp, max_temp, the_temp, wind_speed;
-    private String weather_state_name, weather_state_abbr, wind_direction_compass;
+    private String weather_state_name, weather_state_abbr, wind_direction_compass, applicable_date;
 
     public WeatherDTO() {
     }
 
-    public WeatherDTO(int id, double min_temp, double max_temp, double the_temp, double wind_speed, String weather_state_name, String weather_state_abbr, String wind_direction_compass) {
+    public WeatherDTO(int id, String applicable_date, double min_temp, double max_temp, double the_temp, double wind_speed, String weather_state_name, String weather_state_abbr, String wind_direction_compass) {
         this.id = id;
+        this.applicable_date = applicable_date;
         this.min_temp = min_temp;
         this.max_temp = max_temp;
         this.the_temp = the_temp;
@@ -31,6 +32,16 @@ public class WeatherDTO {
     public void setId(long id) {
         this.id = id;
     }
+
+    public String getApplicable_date() {
+        return applicable_date;
+    }
+
+    public void setApplicable_date(String applicable_date) {
+        this.applicable_date = applicable_date;
+    }
+    
+    
 
     public double getMin_temp() {
         return min_temp;
@@ -86,6 +97,11 @@ public class WeatherDTO {
 
     public void setWind_direction_compass(String wind_direction_compass) {
         this.wind_direction_compass = wind_direction_compass;
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherDTO{" + "id=" + id + ", min_temp=" + min_temp + ", max_temp=" + max_temp + ", the_temp=" + the_temp + ", wind_speed=" + wind_speed + ", weather_state_name=" + weather_state_name + ", weather_state_abbr=" + weather_state_abbr + ", wind_direction_compass=" + wind_direction_compass + ", applicable_date=" + applicable_date + '}';
     }
 
     

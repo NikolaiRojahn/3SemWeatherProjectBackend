@@ -23,5 +23,6 @@ public class ExternalAPI {
     public String getApiMetaWeatherDataByCityId() {
         return apiMetaWeatherDataByCityId;
     }
+
         
 }

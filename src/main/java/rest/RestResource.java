@@ -6,10 +6,13 @@ import dto.CityDTO;
 import dto.WeatherDTO;
 import entity.User;
 import facade.WeatherFacade;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import javax.annotation.security.RolesAllowed;
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -27,55 +30,55 @@ import utils.PuSelector;
  */
 @Path("weather")
 public class RestResource {
-    
+
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static WeatherFacade wf = new WeatherFacade();
 
-  @Context
-  private UriInfo context;
+    @Context
+    private UriInfo context;
 
-  @Context
-  SecurityContext securityContext;
+    @Context
+    SecurityContext securityContext;
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public String getInfoForAll() {
-    return "{\"msg\":\"Hello anonymous\"}";
-  }
-
-  //Just to verify if the database is setup
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("all")
-  public String allUsers() {
-    EntityManager em = PuSelector.getEntityManagerFactory("pu").createEntityManager();
-    try{
-      List<User> users = em.createQuery("select user from User user").getResultList();
-      return "["+users.size()+"]";
-    } finally {
-      em.close();
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getInfoForAll() {
+        return "{\"msg\":\"Hello anonymous\"}";
     }
- 
-  }
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("user")
-  @RolesAllowed("user")
-  public String getFromUser() {
-    String thisuser = securityContext.getUserPrincipal().getName();
-    return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
-  }
+    //Just to verify if the database is setup
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("all")
+    public String allUsers() {
+        EntityManager em = PuSelector.getEntityManagerFactory("pu").createEntityManager();
+        try {
+            List<User> users = em.createQuery("select user from User user").getResultList();
+            return "[" + users.size() + "]";
+        } finally {
+            em.close();
+        }
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("admin")
-  @RolesAllowed("admin")
-  public String getFromAdmin() {
-    String thisuser = securityContext.getUserPrincipal().getName();
-    return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
-  }
-  
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("user")
+    @RolesAllowed("user")
+    public String getFromUser() {
+        String thisuser = securityContext.getUserPrincipal().getName();
+        return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("admin")
+    @RolesAllowed("admin")
+    public String getFromAdmin() {
+        String thisuser = securityContext.getUserPrincipal().getName();
+        return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/today/{city}")
@@ -84,18 +87,32 @@ public class RestResource {
         WeatherDTO weatherDTO = wf.getWeatherForToday(cityDTO);
         return Response.ok().entity(gson.toJson(weatherDTO)).build();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/5days/{city}")
-    public Response getWeatherFiveDaysByCityName(@PathParam("city") String cityname) throws Exception{
+    public Response getWeatherFiveDaysByCityName(@PathParam("city") String cityname) throws Exception {
         CityDTO cityDTO = wf.getWoeidForCity(cityname);
-        List <WeatherDTO> weatherDTOlist = wf.getWeatherByCity(cityDTO);
+        List<WeatherDTO> weatherDTOlist = wf.getWeatherByCity(cityDTO);
         return Response.ok().entity(gson.toJson(weatherDTOlist)).build();
-            
+
+    }
     
-	}
     
+    // mangler error handling!!!!!!!!!!!!!!!!!!!!!!!!!!!!! try catch osv...
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/symbol/{abb}")
+    public Response getWeatherSymbol(@PathParam("abb") String abbreviation) throws MalformedURLException, IOException{
+        String link = wf.getWeatherSymbol(abbreviation);
+        URL url = new URL(link);
+        BufferedImage image = ImageIO.read(url);
+        System.out.println(image);
+        return Response.ok(gson.toJson(image)).build();
+    }
+    
+    
+
 //    @RequestMapping(value = "/today/{city}", method = RequestMethod.GET)
 //	public ResponseEntity<WeatherDTO> forecastOneDayByCityName(@PathVariable(name = "city", required = true) String cityName){
 //		return new ResponseEntity<>(datafacade.getForecastOneDayByCityName(cityName), HttpStatus.OK);
@@ -110,7 +127,6 @@ public class RestResource {
 //	public ResponseEntity<List<WeatherDTO>> forecastEuropeCapitalsToday(){
 //		return new ResponseEntity<>(datafacade.forecastEuropeCapitalsToday(), HttpStatus.OK);
 //	}
-  
 //  @GET
 //  @Produces(MediaType.APPLICATION_JSON)
 //  @Path("starwars-characters")
@@ -137,6 +153,4 @@ public class RestResource {
 //      List<String> starWars = req.runParallelShips();
 //      return Response.ok().entity(gson.toJson(starWars)).build();
 //  }
-  
-  
 }

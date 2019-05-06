@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 import dto.AllWeatherDTO;
 import dto.CityDTO;
 import dto.WeatherDTO;
-import java.util.ArrayList;
 import java.util.List;
 import utils.ExternalAPI;
 import rest.FetchResourceCallable;
@@ -22,8 +21,8 @@ import rest.FetchResourceCallable;
 public class WeatherFacade {
 
     //EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
-    private final Gson gson = new Gson();
-    private final Gson gsonBuilder = new GsonBuilder().setPrettyPrinting().create();
+//    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     ExternalAPI EA = new ExternalAPI();
 
@@ -40,6 +39,11 @@ public class WeatherFacade {
         return allWeatherDTO.getConsolidated_weather();
     }
 
+    public String getWeatherSymbol(String abbreviation ){
+        String url = "https://www.metaweather.com/static/img/weather/png/" +abbreviation+".png";
+        return url;
+    }
+    
     public WeatherDTO getWeatherForToday(CityDTO city) throws Exception {
         return getWeatherByCity(city).get(0);
     }

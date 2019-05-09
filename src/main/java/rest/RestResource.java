@@ -123,7 +123,6 @@ public class RestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/popularcities")
     public Response getMostSearchedCities() {
-        //df = DataFacade.getInstance(emf);
         return Response.ok().entity(gson.toJson(df.getMostSearchedCities())).build();
     }
 }

@@ -15,32 +15,43 @@ import javax.validation.constraints.NotNull;
 public class SearchCity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    @Basic(optional = false)
+    private Integer id;
+//    @Basic(optional = false)
     @NotNull
-    @Column(name = "cityname", length = 50)
+    @Column(name = "cityname", length = 255)
     private String cityname;
-    
-    public SearchCity(){
-        
+
+    public SearchCity() {
     }
 
     public SearchCity(String cityname) {
         this.cityname = cityname;
     }
 
-    public String getCityName() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCityname() {
         return cityname;
     }
 
-    public void setCityName(String cityname) {
+    public void setCityname(String cityname) {
         this.cityname = cityname;
     }
-    
-    
+//
+//    public String getCityName() {
+//        return cityname;
+//    }
+//
+//    public void setCityName(String cityname) {
+//        this.cityname = cityname;
+//    }
+
 }
-
-

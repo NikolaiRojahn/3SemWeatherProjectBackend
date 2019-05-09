@@ -14,7 +14,7 @@ public class AllWeatherDTO {
     List<WeatherDTO> consolidated_weather;
 
     public List<WeatherDTO> getConsolidated_weather() {
-        return consolidated_weather;
+        return consolidated_weather; 
     }
 
 }

@@ -38,8 +38,9 @@ public class RestResource {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static WeatherFacade wf = new WeatherFacade();
-    private static DataFacade df;
-    private static EntityManagerFactory emf = PuSelector.getEntityManagerFactory("pu");
+    private static DataFacade df = DataFacade.getInstance(PuSelector.getEntityManagerFactory("pu"));
+//    private static EntityManagerFactory emf = PuSelector.getEntityManagerFactory("pu");
+//    DataFacade.getInstance(PuSelector.getEntityManagerFactory("pu"));
 
     @Context
     private UriInfo context;
@@ -123,7 +124,7 @@ public class RestResource {
     @Path("/popularcities")
     public Response getMostSearchedCities() {
         //df = DataFacade.getInstance(emf);
-        return Response.ok().entity(gson.toJson(DataFacade.getInstance(emf).getMostSearchedCities())).build();
+        return Response.ok().entity(gson.toJson(df.getMostSearchedCities())).build();
     }
 }
 

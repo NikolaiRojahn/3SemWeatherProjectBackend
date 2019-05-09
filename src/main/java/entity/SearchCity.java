@@ -21,7 +21,7 @@ public class SearchCity implements Serializable {
     
     @Basic(optional = false)
     @NotNull
-    @Column(name = "city_name", length = 50)
+    @Column(name = "cityname", length = 50)
     private String cityname;
     
     public SearchCity(){

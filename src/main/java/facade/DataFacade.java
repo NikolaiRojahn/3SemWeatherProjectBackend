@@ -23,9 +23,7 @@ public class DataFacade {
     
     public List<SearchCityDTO> getMostSearchedCities() {
         EntityManager em = emf.createEntityManager();
-        String queryStr = "SELECT NEW dto.SearchCityDTO"
-                + "sc.cityname"
-                + "FROM SearchCity sc GROUP BY sc.cityname ORDER BY count(sc) DESC";
+        String queryStr = "SELECT NEW dto.SearchCityDTO (sc.cityname) FROM SearchCity sc GROUP BY sc.cityname ORDER BY count(sc) DESC";
 //MYSQL --> select cityname from searchcity GROUP BY cityname ORDER BY count(*) DESC limit 5;
         TypedQuery<SearchCityDTO> query = em.createQuery(queryStr, SearchCityDTO.class);
         query.setMaxResults(5);

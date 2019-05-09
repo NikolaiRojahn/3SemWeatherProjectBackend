@@ -1,4 +1,4 @@
-USE DBnavn;
+USE weather;
 INSERT INTO searchcity (cityname) VALUES ('copenhagen');
 INSERT INTO searchcity (cityname) VALUES ('madrid');
 INSERT INTO searchcity (cityname) VALUES ('copenhagen');

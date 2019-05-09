@@ -38,8 +38,8 @@ public class RestResource {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static WeatherFacade wf = new WeatherFacade();
-    private static DataFacade df = new DataFacade();
-    private static EntityManagerFactory emf = PuSelector.getEntityManagerFactory("pu_production");
+    private static DataFacade df;
+    private static EntityManagerFactory emf = PuSelector.getEntityManagerFactory("pu");
 
     @Context
     private UriInfo context;

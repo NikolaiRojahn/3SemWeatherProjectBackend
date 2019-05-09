@@ -8,6 +8,7 @@
     <properties>
       <!-- DONT ADD ANYTHING HERE
       This part will come from one of the pu_xxxx.properties files -->
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

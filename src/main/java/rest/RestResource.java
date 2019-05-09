@@ -4,9 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.CityDTO;
 import dto.WeatherDTO;
-import entity.User;
+//import entity.User;
 import exceptions.CityNotFoundException;
 import exceptions.ExternalServerError;
+import facade.DataFacade;
 import facade.WeatherFacade;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -36,6 +38,8 @@ public class RestResource {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static WeatherFacade wf = new WeatherFacade();
+    private static DataFacade df = new DataFacade();
+    EntityManagerFactory emf = PuSelector.getEntityManagerFactory("pu");
 
     @Context
     private UriInfo context;
@@ -43,45 +47,43 @@ public class RestResource {
     @Context
     SecurityContext securityContext;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getInfoForAll() {
-        return "{\"msg\":\"Hello anonymous\"}";
-    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String getInfoForAll() {
+//        return "{\"msg\":\"Hello anonymous\"}";
+//    }
 
-    //Just to verify if the database is setup
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("all")
-    public String allUsers() {
-        EntityManager em = PuSelector.getEntityManagerFactory("pu").createEntityManager();
-        try {
-            List<User> users = em.createQuery("select user from User user").getResultList();
-            return "[" + users.size() + "]";
-        } finally {
-            em.close();
-        }
-
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("user")
-    @RolesAllowed("user")
-    public String getFromUser() {
-        String thisuser = securityContext.getUserPrincipal().getName();
-        return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("admin")
-    @RolesAllowed("admin")
-    public String getFromAdmin() {
-        String thisuser = securityContext.getUserPrincipal().getName();
-        return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
-    }
-
+//    //Just to verify if the database is setup
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("all")
+//    public String allUsers() {
+//        EntityManager em = PuSelector.getEntityManagerFactory("pu").createEntityManager();
+//        try {
+//            List<User> users = em.createQuery("select user from User user").getResultList();
+//            return "[" + users.size() + "]";
+//        } finally {
+//            em.close();
+//        }
+//
+//    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("user")
+//    @RolesAllowed("user")
+//    public String getFromUser() {
+//        String thisuser = securityContext.getUserPrincipal().getName();
+//        return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
+//    }
+//
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Path("admin")
+//    @RolesAllowed("admin")
+//    public String getFromAdmin() {
+//        String thisuser = securityContext.getUserPrincipal().getName();
+//        return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
+//    }
 //OUTSOURCING CODE - JAVA SPRING FRAMEWORK
 //@RequestMapping(value = "/today/{city}", method = RequestMethod.GET)
 //public ResponseEntity<WeatherDTO> forecastOneDayByCityName(@PathVariable(name = "city", required = true) String cityName){
@@ -114,6 +116,14 @@ public class RestResource {
         } catch (CityNotFoundException ex) {
             throw new WebApplicationException(ex.getMessage(), ex, Response.Status.NOT_FOUND);
         }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/popularcities")
+    public Response getMostSearchedCities() {
+        df = DataFacade.getInstance(emf);
+        return Response.ok().entity(gson.toJson(df.getMostSearchedCities())).build();
     }
 }
 

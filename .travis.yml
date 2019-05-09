@@ -7,7 +7,7 @@ cache:
 
 script:
   - mvn -DPU_NAME=pu_travis_integration_test verify
-  # mvn -Dremote.user=$REMOTE_USER -Dremote.password=$REMOTE_PW tomcat7:deploy
+  - mvn -Dremote.user=$REMOTE_USER -Dremote.password=$REMOTE_PW tomcat7:deploy
   # Verify that we have a deployed project
   - mvn verify -PACCEPT_TEST
 

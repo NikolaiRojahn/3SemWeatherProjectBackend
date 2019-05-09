@@ -31,7 +31,7 @@ public class IntegrationTest {
 //        System.out.println("INTEGRATION TEST");
 //        TestUtils.setupTestUsers(PuSelector.getEntityManagerFactory("pu_integration_test"));
 //        SERVER_PORT = 7777;
-//        APP_CONTEXT = "/jwtbackend";
+//        APP_CONTEXT = "/weatherapi";
 //        SERVER_URL = "http://localhost";
 //
 //        //Setup and start Embedded Tomcat for testing

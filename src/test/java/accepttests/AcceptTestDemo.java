@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AcceptTestDemo {
-  private static final String APP_CONTEXT = "/jwtbackend";  //IMPORTANT--> this should reflect the value in META-INF/context.xml
+  private static final String APP_CONTEXT = "/weatherapi";  //IMPORTANT--> this should reflect the value in META-INF/context.xml
   private static EntityManagerFactory emf;
   
   @Test

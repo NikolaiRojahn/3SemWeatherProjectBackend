@@ -23,7 +23,7 @@ public class AcceptTestDemo {
 
   @BeforeClass
   public static void setUpBeforeAll() throws LifecycleException, ServletException, MalformedURLException {
-     RestAssured.baseURI = "https://www.joergoertel.com/";
+     RestAssured.baseURI = "https://techjahn.dk/";
     //RestAssured.port = 80;
     //RestAssured.basePath = APP_CONTEXT;
     RestAssured.defaultParser = Parser.JSON;

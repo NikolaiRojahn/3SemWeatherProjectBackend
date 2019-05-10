@@ -96,6 +96,7 @@ public class RestResource {
     public Response getWeatherForTodayByCityname(@PathParam("city") String cityname) throws Exception {
         try {
             WeatherDTO weatherDTO = wf.getWeatherForToday(cityname);
+            df.newSearchCity(cityname);
             return Response.ok().entity(gson.toJson(weatherDTO)).build();
         } catch (CityNotFoundException ex) {
             throw new WebApplicationException(ex.getMessage(), ex, Response.Status.NOT_FOUND);
@@ -113,6 +114,7 @@ public class RestResource {
     public Response getWeatherFiveDaysByCityName(@PathParam("city") String cityname) throws Exception {
         try {
             List<WeatherDTO> weatherDTOlist = wf.getWeatherByCity(cityname);
+            df.newSearchCity(cityname);
             return Response.ok().entity(gson.toJson(weatherDTOlist)).build();
         } catch (CityNotFoundException ex) {
             throw new WebApplicationException(ex.getMessage(), ex, Response.Status.NOT_FOUND);

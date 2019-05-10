@@ -33,5 +33,19 @@ public class TestDataFromDB {
         SearchCity searchCity = facade.getCitynameFromDB("copenhagen");
         assertEquals("copenhagen", searchCity.getCityname());
     }
+    
+    @Test
+    public void testNewSearchCity() {
+        SearchCity searchCity = facade.newSearchCity("london");
+        assertEquals("london", searchCity.getCityname());
+    }
+    
+    @Test
+    public void testCountAfterNewSearchCity() {
+        facade.newSearchCity("london"); //Indsætter ny city i tabellen
+        int expected = 2;
+        int actual = facade.getAllCitynameFromDB().size();
+        assertEquals(expected, actual);
+    }
 
 }

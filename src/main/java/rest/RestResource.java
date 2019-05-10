@@ -53,7 +53,6 @@ public class RestResource {
 //    public String getInfoForAll() {
 //        return "{\"msg\":\"Hello anonymous\"}";
 //    }
-
 //    //Just to verify if the database is setup
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
@@ -127,6 +126,15 @@ public class RestResource {
     public Response getMostSearchedCities() {
         return Response.ok().entity(gson.toJson(df.getMostSearchedCities())).build();
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/country/{woeid}")
+    public Response getWeatherForTodayByCityname(@PathParam("woeid") int woeid) throws Exception {
+        List<CityDTO> cityDTOlist = wf.getCityByCountry(woeid);
+        return Response.ok().entity(gson.toJson(cityDTOlist)).build();
+    }
+
 }
 
 //    // mangler error handling!!!!!!!!!!!!!!!!!!!!!!!!!!!!! try catch osv...

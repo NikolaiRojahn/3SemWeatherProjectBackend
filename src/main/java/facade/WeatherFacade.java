@@ -6,6 +6,7 @@
 package facade;
 
 import com.google.gson.Gson;
+import dto.AllCityDTO;
 import dto.AllWeatherDTO;
 import dto.CityDTO;
 import dto.WeatherDTO;
@@ -69,6 +70,12 @@ public class WeatherFacade {
 
     public List<String> getFetchResultList() {
         return fetchResultList;
+    }
+    
+    public List<CityDTO> getCityByCountry(int woeid) throws Exception {
+        //fetchCityObjectAndEventsByCityName(cityname);
+        AllCityDTO allCityDTO = gson.fromJson(new FetchCallable(EA.getApiMetaWeatherDataByCityId() + woeid).call(), AllCityDTO.class);
+        return allCityDTO.getChildren();
     }
 
 }

@@ -7,8 +7,10 @@ package facade;
 
 import com.google.gson.Gson;
 import dto.AllCityDTO;
+import dto.AllPackageDTO;
 import dto.AllWeatherDTO;
 import dto.CityDTO;
+import dto.PackageDTO;
 import dto.WeatherDTO;
 import exceptions.CityNotFoundException;
 import exceptions.ExternalServerError;
@@ -34,6 +36,7 @@ public class WeatherFacade {
     public List<String> getUrlsToFetchFromByCity(String cityname) {
         List<String> urls = new ArrayList();
         urls.add(EA.getApiMetaWeatherCity() + cityname);
+        urls.add(EA.getApiMetaPackage());
         return urls;
     }
 
@@ -76,6 +79,11 @@ public class WeatherFacade {
         //fetchCityObjectAndEventsByCityName(cityname);
         AllCityDTO allCityDTO = gson.fromJson(new FetchCallable(EA.getApiMetaWeatherDataByCityId() + woeid).call(), AllCityDTO.class);
         return allCityDTO.getChildren();
+    }
+    
+    public List<PackageDTO> getPackageByCity(int zipCode){
+        AllPackageDTO allPackageDTO = gson.fromJson(fetchResultList.get(1), AllPackageDTO.class);
+        return allPackageDTO.getPakkeshopData();
     }
 
 }

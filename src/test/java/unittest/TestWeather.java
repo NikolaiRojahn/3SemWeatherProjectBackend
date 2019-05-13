@@ -15,7 +15,7 @@ public class TestWeather {
     @Test
     public void testGetUrlsToFetchFromByCity() {
         String cityname = "copenhagen";
-        int expected = 1;
+        int expected = 2;
         int actual = wf.getUrlsToFetchFromByCity(cityname).size();
         assertEquals(expected, actual);
     }
@@ -23,7 +23,7 @@ public class TestWeather {
     @Test
     public void testFetchCityObjectAndEventsByCityName() throws Exception {
         String cityname = "copenhagen";
-        int expected = 1;
+        int expected = 2;
         wf.fetchCityObjectAndEventsByCityName(cityname);
         int actual = wf.getFetchResultList().size();
         assertEquals(expected, actual);

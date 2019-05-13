@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.CityDTO;
+import dto.PackageDTO;
 import dto.WeatherDTO;
 //import entity.User;
 import exceptions.CityNotFoundException;
@@ -133,6 +134,15 @@ public class RestResource {
     public Response getWeatherForTodayByCityname(@PathParam("woeid") int woeid) throws Exception {
         List<CityDTO> cityDTOlist = wf.getCityByCountry(woeid);
         return Response.ok().entity(gson.toJson(cityDTOlist)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/gls/{zipCode}")
+    public Response getPackageInfo(@PathParam("zipCode") int zipCode) throws Exception {
+        System.out.println("Hallojhkdyio");
+        List<PackageDTO> packageList = wf.getPackageByCity(zipCode);
+        return Response.ok().entity(gson.toJson(packageList)).build();
     }
 
 }

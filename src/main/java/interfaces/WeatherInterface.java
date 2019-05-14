@@ -27,5 +27,5 @@ public interface WeatherInterface {
 
     public List<PackageDTO> getPackageByCity(int zipCode);
     
-    public String checkForSpaceInCityName(String cityname);
+    public List<CityDTO> checkForSpaceInCityName(List<CityDTO> cities);
 }

@@ -37,7 +37,7 @@ public class WeatherFacade implements WeatherInterface{
     @Override
     public List<String> getUrlsToFetchFromByCity(String cityname) {
         List<String> urls = new ArrayList();
-        urls.add(EA.getApiMetaWeatherCity() + checkForSpaceInCityName(cityname));
+        urls.add(EA.getApiMetaWeatherCity() + cityname);
         urls.add(EA.getApiMetaPackage());
         return urls;
     }
@@ -98,14 +98,16 @@ public class WeatherFacade implements WeatherInterface{
     }
     
     @Override
-    public String checkForSpaceInCityName(String cityname) {
-        if(cityname.contains(" ")){
-            String[] splittedWords = cityname.split(" ");
-            return splittedWords[(splittedWords.length - 1)];
-        } 
-        return cityname;
+    public List<CityDTO> checkForSpaceInCityName(List<CityDTO> cities) {
+        for (CityDTO citydto : cities ) {
+            if(citydto.getTitle().contains(" ")){
+            String[] splittedWords = citydto.getTitle().split(" ");
+            String newTitle = splittedWords[(splittedWords.length - 1)];
+            citydto.setTitle(newTitle);
+            }
+        }
+        return cities;
     }
-
 }
 
 ///*

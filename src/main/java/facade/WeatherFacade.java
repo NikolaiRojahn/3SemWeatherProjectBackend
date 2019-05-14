@@ -37,7 +37,7 @@ public class WeatherFacade implements WeatherInterface{
     @Override
     public List<String> getUrlsToFetchFromByCity(String cityname) {
         List<String> urls = new ArrayList();
-        urls.add(EA.getApiMetaWeatherCity() + cityname);
+        urls.add(EA.getApiMetaWeatherCity() + checkForSpaceInCityName(cityname));
         urls.add(EA.getApiMetaPackage());
         return urls;
     }
@@ -95,6 +95,15 @@ public class WeatherFacade implements WeatherInterface{
     public List<PackageDTO> getPackageByCity(int zipCode){
         AllPackageDTO allPackageDTO = gson.fromJson(fetchResultList.get(1), AllPackageDTO.class);
         return allPackageDTO.getPakkeshopData();
+    }
+    
+    @Override
+    public String checkForSpaceInCityName(String cityname) {
+        if(cityname.contains(" ")){
+            String[] splittedWords = cityname.split(" ");
+            return splittedWords[(splittedWords.length - 1)];
+        } 
+        return cityname;
     }
 
 }

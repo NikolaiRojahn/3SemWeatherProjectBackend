@@ -5,6 +5,7 @@
  */
 package facade;
 
+import interfaces.WeatherInterface;
 import com.google.gson.Gson;
 import dto.AllCityDTO;
 import dto.AllPackageDTO;
@@ -24,7 +25,7 @@ import threads.FetchExecutor;
  *
  * @author nr
  */
-public class WeatherFacade {
+public class WeatherFacade implements WeatherInterface{
 
     //EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
     private final Gson gson = new Gson();

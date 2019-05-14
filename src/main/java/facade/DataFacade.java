@@ -1,5 +1,6 @@
 package facade;
 
+import interfaces.DataInterface;
 import dto.SearchCityDTO;
 import entity.SearchCity;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-public class DataFacade {
+public class DataFacade implements DataInterface{
     
     private static EntityManagerFactory emf;
     private static DataFacade instance;
@@ -24,6 +25,7 @@ public class DataFacade {
         return instance;
     }
     
+    @Override
     public SearchCity getCitynameFromDB(String cityname) {
         EntityManager em = emf.createEntityManager();
         SearchCity searchCity;
@@ -35,6 +37,7 @@ public class DataFacade {
         return searchCity;
     }
     
+    @Override
     public List<SearchCity> getAllCitynameFromDB() {
         EntityManager em = emf.createEntityManager();
         try {
@@ -49,6 +52,7 @@ public class DataFacade {
         }
     }
     
+    @Override
     public List<SearchCityDTO> getMostSearchedCities() {
         EntityManager em = emf.createEntityManager();
         String queryStr = "SELECT NEW dto.SearchCityDTO (sc.cityname) FROM SearchCity AS sc GROUP BY sc.cityname ORDER BY count(sc) DESC";
@@ -58,6 +62,7 @@ public class DataFacade {
         return query.getResultList();
     }
     
+    @Override
     public SearchCity newSearchCity(String cityname) {
         SearchCity searchCity = new SearchCity(cityname);
         EntityManager em = emf.createEntityManager();

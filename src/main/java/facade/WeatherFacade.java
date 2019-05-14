@@ -34,6 +34,7 @@ public class WeatherFacade implements WeatherInterface{
 
     private List<String> fetchResultList;
 
+    @Override
     public List<String> getUrlsToFetchFromByCity(String cityname) {
         List<String> urls = new ArrayList();
         urls.add(EA.getApiMetaWeatherCity() + cityname);
@@ -41,6 +42,7 @@ public class WeatherFacade implements WeatherInterface{
         return urls;
     }
 
+    @Override
     public void fetchCityObjectAndEventsByCityName(String cityname) throws Exception {
         List<String> fetchUrls = getUrlsToFetchFromByCity(cityname);
         fetchResultList = new FetchExecutor(fetchUrls).run();
@@ -49,39 +51,47 @@ public class WeatherFacade implements WeatherInterface{
         }
     }
 
+    @Override
     public CityDTO getWoeidForCity() throws Exception {
         CityDTO[] city = gson.fromJson(fetchResultList.get(0), CityDTO[].class);
         return city[0];
     }
 
+    @Override
     public List<WeatherDTO> getWeatherByCity(String cityname) throws Exception {
         fetchCityObjectAndEventsByCityName(cityname);
         AllWeatherDTO allWeatherDTO = gson.fromJson(new FetchCallable(EA.getApiMetaWeatherDataByCityId() + getWoeidForCity().getWoeid()).call(), AllWeatherDTO.class);
         return allWeatherDTO.getConsolidated_weather();
     }
 
+    @Override
     public WeatherDTO getWeatherForToday(String cityname) throws Exception {
         return getWeatherByCity(cityname).get(0);
     }
 
+    @Override
     public String getFindCityId() {
         return EA.getApiMetaWeatherCity();
     }
 
+    @Override
     public String getFindWeatherForCity() {
         return EA.getApiMetaWeatherDataByCityId();
     }
 
+    @Override
     public List<String> getFetchResultList() {
         return fetchResultList;
     }
     
+    @Override
     public List<CityDTO> getCityByCountry(int woeid) throws Exception {
         //fetchCityObjectAndEventsByCityName(cityname);
         AllCityDTO allCityDTO = gson.fromJson(new FetchCallable(EA.getApiMetaWeatherDataByCityId() + woeid).call(), AllCityDTO.class);
         return allCityDTO.getChildren();
     }
     
+    @Override
     public List<PackageDTO> getPackageByCity(int zipCode){
         AllPackageDTO allPackageDTO = gson.fromJson(fetchResultList.get(1), AllPackageDTO.class);
         return allPackageDTO.getPakkeshopData();

@@ -71,7 +71,18 @@ public class WeatherFacade implements WeatherInterface {
             throw ex;
         }
     }
-
+    
+    @Override
+    public List<CityDTO> checkForSpaceInCityName(List<CityDTO> cities) {
+        for (CityDTO citydto : cities ) {
+            if(citydto.getTitle().contains(" ")){
+            String[] splittedWords = citydto.getTitle().split(" ");
+            String newTitle = splittedWords[(splittedWords.length - 1)];
+            citydto.setTitle(newTitle);
+            }
+        }
+        return cities;
+    }
 }
 
 ///*

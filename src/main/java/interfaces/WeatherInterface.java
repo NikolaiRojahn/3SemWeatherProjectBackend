@@ -18,4 +18,6 @@ public interface WeatherInterface {
     public List<PackageDTO> getPackageByCity(int zipCode) throws Exception;
     
     public String getPackageByCityNextLevel(String test);
+    
+    public List<CityDTO> checkForSpaceInCityName(List<CityDTO> cities);
 }

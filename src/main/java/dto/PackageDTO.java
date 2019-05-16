@@ -2,15 +2,14 @@ package dto;
 
 public class PackageDTO {
     
-    private String CompanyName;
-    private int Number;
+    private String CompanyName, Streetname, CityName;
+    private int ZipCode;
 
-    public PackageDTO() {
-    }
-
-    public PackageDTO(String CompanyName, int Number) {
+    public PackageDTO(String CompanyName, String Streetname, String CityName, int ZipCode) {
         this.CompanyName = CompanyName;
-        this.Number = Number;
+        this.Streetname = Streetname;
+        this.CityName = CityName;
+        this.ZipCode = ZipCode;
     }
 
     public String getCompanyName() {
@@ -21,12 +20,28 @@ public class PackageDTO {
         this.CompanyName = CompanyName;
     }
 
-    public int getNumber() {
-        return Number;
+    public String getStreetname() {
+        return Streetname;
     }
 
-    public void setNumber(int Number) {
-        this.Number = Number;
+    public void setStreetname(String Streetname) {
+        this.Streetname = Streetname;
+    }
+
+    public String getCityName() {
+        return CityName;
+    }
+
+    public void setCityName(String CityName) {
+        this.CityName = CityName;
+    }
+
+    public int getZipCode() {
+        return ZipCode;
+    }
+
+    public void setZipCode(int ZipCode) {
+        this.ZipCode = ZipCode;
     }
     
 }

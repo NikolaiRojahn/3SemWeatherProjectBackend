@@ -25,15 +25,12 @@ public class WeatherFacade implements WeatherInterface {
 
     @Override
     public CityDTO getWoeidForCity(String cityname) throws Exception {
-        try {
-            CityDTO[] city = gson.fromJson(new SingleFutureCallable().run(EA.getApiMetaWeatherCity() + cityname), CityDTO[].class);
-//        if (city.length == 0) { //Checking for empty array
-//            throw new CityNotFoundException();
-//        }
-            return city[0];
-        } catch (Exception ex) {
+        String test = new SingleFutureCallable().run(EA.getApiMetaWeatherCity() + cityname);
+        if(test.equals("[]")){
             throw new CityNotFoundException();
         }
+        CityDTO[] city = gson.fromJson(test, CityDTO[].class);
+        return city[0];
     }
 
     @Override
@@ -71,14 +68,14 @@ public class WeatherFacade implements WeatherInterface {
             throw ex;
         }
     }
-    
+
     @Override
     public List<CityDTO> checkForSpaceInCityName(List<CityDTO> cities) {
-        for (CityDTO citydto : cities ) {
-            if(citydto.getTitle().contains(" ")){
-            String[] splittedWords = citydto.getTitle().split(" ");
-            String newTitle = splittedWords[(splittedWords.length - 1)];
-            citydto.setTitle(newTitle);
+        for (CityDTO citydto : cities) {
+            if (citydto.getTitle().contains(" ")) {
+                String[] splittedWords = citydto.getTitle().split(" ");
+                String newTitle = splittedWords[(splittedWords.length - 1)];
+                citydto.setTitle(newTitle);
             }
         }
         return cities;

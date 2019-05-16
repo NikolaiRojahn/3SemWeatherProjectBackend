@@ -1,6 +1,5 @@
 package unittest;
 
-import dto.SearchCityDTO;
 import entity.SearchCity;
 import facade.DataFacade;
 import javax.persistence.EntityManagerFactory;
@@ -10,8 +9,6 @@ import org.junit.Test;
 import testutils.TestUtilsDataFromDB;
 import utils.PuSelector;
 import static org.junit.Assert.*;
-//import java.util.ArrayList;
-//import java.util.List;
 
 public class TestDataFromDB {
     

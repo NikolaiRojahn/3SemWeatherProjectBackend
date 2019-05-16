@@ -1,12 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package facade;
 
 import interfaces.WeatherInterface;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import dto.AllCityDTO;
 import dto.AllPackageDTO;
 import dto.AllWeatherDTO;
@@ -14,53 +13,32 @@ import dto.CityDTO;
 import dto.PackageDTO;
 import dto.WeatherDTO;
 import exceptions.CityNotFoundException;
-import exceptions.ExternalServerError;
-import java.util.ArrayList;
 import java.util.List;
-import threads.FetchCallable;
 import utils.ExternalAPI;
-import threads.FetchExecutor;
+import threads.SingleFutureCallable;
 
-/**
- *
- * @author nr
- */
-public class WeatherFacade implements WeatherInterface{
+public class WeatherFacade implements WeatherInterface {
 
-    //EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
     private final Gson gson = new Gson();
 
     private ExternalAPI EA = new ExternalAPI();
 
-    private List<String> fetchResultList;
-
     @Override
-    public List<String> getUrlsToFetchFromByCity(String cityname) {
-        List<String> urls = new ArrayList();
-        urls.add(EA.getApiMetaWeatherCity() + cityname);
-        urls.add(EA.getApiMetaPackage());
-        return urls;
-    }
-
-    @Override
-    public void fetchCityObjectAndEventsByCityName(String cityname) throws Exception {
-        List<String> fetchUrls = getUrlsToFetchFromByCity(cityname);
-        fetchResultList = new FetchExecutor(fetchUrls).run();
-        if (fetchResultList.get(0).equals("[]")) { //Checking for empty array
+    public CityDTO getWoeidForCity(String cityname) throws Exception {
+        try {
+            CityDTO[] city = gson.fromJson(new SingleFutureCallable().run(EA.getApiMetaWeatherCity() + cityname), CityDTO[].class);
+//        if (city.length == 0) { //Checking for empty array
+//            throw new CityNotFoundException();
+//        }
+            return city[0];
+        } catch (Exception ex) {
             throw new CityNotFoundException();
         }
     }
 
     @Override
-    public CityDTO getWoeidForCity() throws Exception {
-        CityDTO[] city = gson.fromJson(fetchResultList.get(0), CityDTO[].class);
-        return city[0];
-    }
-
-    @Override
     public List<WeatherDTO> getWeatherByCity(String cityname) throws Exception {
-        fetchCityObjectAndEventsByCityName(cityname);
-        AllWeatherDTO allWeatherDTO = gson.fromJson(new FetchCallable(EA.getApiMetaWeatherDataByCityId() + getWoeidForCity().getWoeid()).call(), AllWeatherDTO.class);
+        AllWeatherDTO allWeatherDTO = gson.fromJson(new SingleFutureCallable().run(EA.getApiMetaWeatherDataByCityId() + getWoeidForCity(cityname).getWoeid()), AllWeatherDTO.class);
         return allWeatherDTO.getConsolidated_weather();
     }
 
@@ -70,31 +48,28 @@ public class WeatherFacade implements WeatherInterface{
     }
 
     @Override
-    public String getFindCityId() {
-        return EA.getApiMetaWeatherCity();
-    }
-
-    @Override
-    public String getFindWeatherForCity() {
-        return EA.getApiMetaWeatherDataByCityId();
-    }
-
-    @Override
-    public List<String> getFetchResultList() {
-        return fetchResultList;
-    }
-    
-    @Override
     public List<CityDTO> getCityByCountry(int woeid) throws Exception {
-        //fetchCityObjectAndEventsByCityName(cityname);
-        AllCityDTO allCityDTO = gson.fromJson(new FetchCallable(EA.getApiMetaWeatherDataByCityId() + woeid).call(), AllCityDTO.class);
+        AllCityDTO allCityDTO = gson.fromJson(new SingleFutureCallable().run(EA.getApiMetaWeatherDataByCityId() + woeid), AllCityDTO.class);
         return allCityDTO.getChildren();
     }
-    
+
     @Override
-    public List<PackageDTO> getPackageByCity(int zipCode){
-        AllPackageDTO allPackageDTO = gson.fromJson(fetchResultList.get(1), AllPackageDTO.class);
+    public List<PackageDTO> getPackageByCity(int zipCode) throws Exception {
+        String combined = EA.getApiMetaPackage() + zipCode;
+        AllPackageDTO allPackageDTO = gson.fromJson(getPackageByCityNextLevel(new SingleFutureCallable().run(combined)), AllPackageDTO.class);
         return allPackageDTO.getPakkeshopData();
+    }
+
+    @Override
+    public String getPackageByCityNextLevel(String test) {
+        try {
+            JsonElement je = new JsonParser().parse(test);
+            JsonObject asJsonObject = je.getAsJsonObject();
+            JsonElement get = asJsonObject.get("ArrayOfPakkeshopData");
+            return get.toString();
+        } catch (JsonSyntaxException ex) {
+            throw ex;
+        }
     }
 
 }

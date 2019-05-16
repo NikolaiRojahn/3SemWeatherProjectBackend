@@ -1,7 +1,6 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,13 +44,5 @@ public class SearchCity implements Serializable {
     public void setCityname(String cityname) {
         this.cityname = cityname;
     }
-//
-//    public String getCityName() {
-//        return cityname;
-//    }
-//
-//    public void setCityName(String cityname) {
-//        this.cityname = cityname;
-//    }
 
 }

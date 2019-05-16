@@ -1,12 +1,5 @@
 package dto;
 
-/**
- * The purpose of PackageDTO: !!!TYPE PURPOSE OF PackageDTO HERE!!!
- * @author Morten
- * @version 1.0
- * @since 13-05-2019
- */
-
 public class PackageDTO {
     
     private String CompanyName;
@@ -36,6 +29,4 @@ public class PackageDTO {
         this.Number = Number;
     }
     
-    
-
 }

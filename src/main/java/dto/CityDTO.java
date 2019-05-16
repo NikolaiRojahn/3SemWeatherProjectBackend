@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dto;
 
-/**
- *
- * @author nr
- */
 public class CityDTO {
     
     private String title, location_type, latt_long;
@@ -55,7 +46,5 @@ public class CityDTO {
     public void setWoeid(int woeid) {
         this.woeid = woeid;
     }
-    
-    
     
 }

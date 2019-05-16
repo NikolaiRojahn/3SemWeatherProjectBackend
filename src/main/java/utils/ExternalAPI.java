@@ -15,7 +15,8 @@ public class ExternalAPI {
     private final String apiMetaWeatherCity = "https://www.metaweather.com/api/location/search/?query=";
     // Path parameter is a int (WOEID id from above API call), use this to get the weather data for the next 5 days. 
     private final String apiMetaWeatherDataByCityId = "https://www.metaweather.com/api/location/";
-    private final String apiMetaPackage = "https://dieky.dk/jwtbackend/api/info/zipcode/3000";
+    //External API from other group in class
+    private final String apiMetaPackage = "https://dieky.dk/jwtbackend/api/info/zipcode/";
 
     public String getApiMetaWeatherCity() {
         return apiMetaWeatherCity;

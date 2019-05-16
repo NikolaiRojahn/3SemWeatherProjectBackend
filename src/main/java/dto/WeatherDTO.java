@@ -1,9 +1,5 @@
 package dto;
 
-/**
- *
- * @author nr
- */
 public class WeatherDTO {
 
     private long id;

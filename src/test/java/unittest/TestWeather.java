@@ -11,44 +11,12 @@ import java.util.List;
 public class TestWeather {
 
     private WeatherFacade wf = new WeatherFacade();
-
-    @Test
-    public void testGetUrlsToFetchFromByCity() {
-        String cityname = "copenhagen";
-        int expected = 2;
-        int actual = wf.getUrlsToFetchFromByCity(cityname).size();
-        assertEquals(expected, actual);
-    }
-    
-    @Test
-    public void testFetchCityObjectAndEventsByCityName() throws Exception {
-        String cityname = "copenhagen";
-        int expected = 2;
-        wf.fetchCityObjectAndEventsByCityName(cityname);
-        int actual = wf.getFetchResultList().size();
-        assertEquals(expected, actual);
-    }
-        
-    @Test
-    public void getUrlFindCityId() {
-        String expectedUrl = "https://www.metaweather.com/api/location/search/?query=";
-        String actualUrl = wf.getFindCityId();
-        assertEquals(expectedUrl, actualUrl);
-    }
-
-    @Test
-    public void getUrlFindWeatherByCityId() {
-        String expectedUrl = "https://www.metaweather.com/api/location/";
-        String actualUrl = wf.getFindWeatherForCity();
-        assertEquals(expectedUrl, actualUrl);
-    }
     
     @Test
     public void testGetWoeidForCityLondon() throws Exception {
         String cityname = "london";
         int expected = 44418;
-        wf.fetchCityObjectAndEventsByCityName(cityname);
-        int actual = wf.getWoeidForCity().getWoeid();
+        int actual = wf.getWoeidForCity(cityname).getWoeid();
         assertEquals(expected, actual);
     }
     
@@ -56,13 +24,12 @@ public class TestWeather {
     public void testGetWoeidForCityCopenhagen() throws Exception {
         String cityname = "copenhagen";
         int expected = 554890;
-        wf.fetchCityObjectAndEventsByCityName(cityname);
-        int actual = wf.getWoeidForCity().getWoeid();
+        int actual = wf.getWoeidForCity(cityname).getWoeid();
         assertEquals(expected, actual);
     }
 
     @Test
-    public void getWeatherByCity() throws Exception {
+    public void testGetWeatherByCity() throws Exception {
         String cityname = "Copenhagen";
         int expected = 6;
         int actual = wf.getWeatherByCity(cityname).size();
@@ -70,7 +37,7 @@ public class TestWeather {
     }
     
     @Test
-    public void getWeatherTodayByCity() throws Exception {
+    public void testGetWeatherTodayByCity() throws Exception {
         String cityname = "Copenhagen";
         List<WeatherDTO> testTodayDTOList = new ArrayList();
         testTodayDTOList.add(wf.getWeatherForToday(cityname));
@@ -80,9 +47,25 @@ public class TestWeather {
     }
     
     @Test(expected = CityNotFoundException.class)
-    public void getCityNotFoundException() throws Exception  {
+    public void testGetCityNotFoundException() throws Exception  {
         String cityname = "Cofdsgdgpenhagen";
-        wf.fetchCityObjectAndEventsByCityName(cityname);
+        wf.getWeatherByCity(cityname);
+    }
+    
+    @Test
+    public void testGetCityByCountry() throws Exception {
+        int woeid = 23424796;
+        int expected = 1;
+        int actual = wf.getCityByCountry(woeid).size();
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testGetPackageByCity() throws Exception {
+        int zipCode = 2500;
+        int expected = 6;
+        int actual = wf.getPackageByCity(zipCode).size();
+        assertEquals(expected, actual);
     }
     
 }

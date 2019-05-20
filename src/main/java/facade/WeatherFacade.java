@@ -47,7 +47,8 @@ public class WeatherFacade implements WeatherInterface {
     @Override
     public List<CityDTO> getCityByCountry(int woeid) throws Exception {
         AllCityDTO allCityDTO = gson.fromJson(new SingleFutureCallable().run(EA.getApiMetaWeatherDataByCityId() + woeid), AllCityDTO.class);
-        return allCityDTO.getChildren();
+        return checkForSpaceInCityName(allCityDTO.getChildren());
+        //return allCityDTO.getChildren();
     }
 
     @Override
